@@ -1,73 +1,91 @@
-// --- LÓGICA DE LA BASE DE DATOS (LocalStorage) ---
+// --- SISTEMA DE ARRASTRE (Drag & Drop) ---
+let activeWindow = null;
+let offset = { x: 0, y: 0 };
 
-const noteInput = document.getElementById('note-input');
-const dbStatus = document.getElementById('db-status');
+document.querySelectorAll('.draggable').forEach(win => {
+    const header = win.querySelector('.window-header');
+    header.addEventListener('mousedown', (e) => {
+        activeWindow = win;
+        offset.x = e.clientX - win.offsetLeft;
+        offset.y = e.clientY - win.offsetTop;
+        win.style.zIndex = 1000;
+        playSound();
+    });
+});
 
-// Cargar datos al iniciar
-window.onload = () => {
-    const savedNote = localStorage.getItem('user_note');
-    if (savedNote) {
-        noteInput.value = savedNote;
-        dbStatus.innerText = "Estado: Datos cargados";
+document.addEventListener('mousemove', (e) => {
+    if (activeWindow) {
+        activeWindow.style.left = (e.clientX - offset.x) + 'px';
+        activeWindow.style.top = (e.clientY - offset.y) + 'px';
     }
-    initBubbles();
-};
+    
+    // --- EFECTO PARALLAX ---
+    const bg = document.getElementById('parallax');
+    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+    bg.style.transform = `translate(${moveX}px, ${moveY}px)`;
+});
 
-// Función para guardar en la base de datos
-function saveNote() {
-    const content = noteInput.value;
-    localStorage.setItem('user_note', content);
-    
-    dbStatus.innerText = "Estado: ¡Guardado!";
-    dbStatus.style.color = "#3aebaf";
-    
-    setTimeout(() => {
-        dbStatus.innerText = "Estado: En espera";
-        dbStatus.style.color = "white";
-    }, 2000);
+document.addEventListener('mouseup', () => {
+    if(activeWindow) activeWindow.style.zIndex = 10;
+    activeWindow = null;
+});
+
+// --- EFECTO GENIE (Cerrar) ---
+function closeWindow(btn) {
+    const win = btn.closest('.window');
+    win.classList.add('closing');
+    playSound();
+    setTimeout(() => win.style.display = 'none', 500);
 }
 
-// --- LÓGICA DEL RELOJ ---
+// --- SONIDOS Y MÚSICA ---
+function playSound() {
+    const sound = document.getElementById('pop-sound');
+    sound.currentTime = 0;
+    sound.play();
+}
 
+let isPlaying = false;
+function toggleMusic() {
+    isPlaying = !isPlaying;
+    const vinyl = document.getElementById('vinyl');
+    const bars = document.querySelectorAll('.bar');
+    
+    if(isPlaying) {
+        vinyl.classList.add('rotating');
+        // Simular visualizador
+        setInterval(() => {
+            if(isPlaying) bars.forEach(b => b.style.height = Math.random() * 30 + 'px');
+        }, 200);
+    } else {
+        vinyl.classList.remove('rotating');
+        bars.forEach(b => b.style.height = '5px');
+    }
+    playSound();
+}
+
+// --- RESOURCE METER SIMULADO ---
+setInterval(() => {
+    const bar = document.getElementById('cpu-bar');
+    if(bar) bar.style.width = (Math.random() * 40 + 60) + '%';
+}, 2000);
+
+// Mantener lógica de reloj y notas anterior...
 function updateClock() {
     const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    
-    document.getElementById('time').innerText = `${h}:${m}:${s}`;
-    
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('date').innerText = now.toLocaleDateString('es-ES', options);
+    document.getElementById('time').innerText = now.toLocaleTimeString('es-ES');
+    document.getElementById('date').innerText = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
 }
-
 setInterval(updateClock, 1000);
 updateClock();
 
-// --- EFECTOS VISUALES (Burbujas) ---
-
-function initBubbles() {
-    const container = document.getElementById('bubbles');
-    for (let i = 0; i < 15; i++) {
-        const b = document.createElement('div');
-        b.style.position = 'absolute';
-        const size = Math.random() * 100 + 50;
-        b.style.width = size + 'px';
-        b.style.height = size + 'px';
-        b.style.background = 'rgba(255, 255, 255, 0.15)';
-        b.style.borderRadius = '50%';
-        b.style.border = '1px solid rgba(255, 255, 255, 0.3)';
-        b.style.left = Math.random() * 100 + '%';
-        b.style.top = Math.random() * 100 + '%';
-        
-        b.animate([
-            { transform: 'translateY(0) scale(1)', opacity: 0.3 },
-            { transform: 'translateY(-100px) scale(1.2)', opacity: 0 }
-        ], {
-            duration: Math.random() * 4000 + 4000,
-            iterations: Infinity
-        });
-        
-        container.appendChild(b);
-    }
+// Base de Datos Local
+function saveNote() {
+    const content = document.getElementById('note-input').value;
+    localStorage.setItem('aero_note', content);
+    playSound();
 }
+window.onload = () => {
+    document.getElementById('note-input').value = localStorage.getItem('aero_note') || "";
+};
