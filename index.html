@@ -1,52 +1,84 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AeroOS - Dashboard Aqua</title>
+    <title>AeroOS Ultra - Aqua Experience</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="bubbles-container" id="bubbles"></div>
+    <div class="parallax-bg" id="parallax">
+        <div class="bubbles-container" id="bubbles"></div>
+    </div>
 
     <div id="desktop">
-        <div class="window glass-window" id="clock-widget">
+        <div class="window glass-window draggable" id="clock-widget" style="top: 50px; left: 50px;">
             <div class="window-header">
-                <span class="dot red"></span>
+                <span class="dot red" onclick="closeWindow(this)"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
                 <span class="title">Tiempo</span>
             </div>
             <div class="window-content">
                 <h1 id="time">00:00:00</h1>
-                <p id="date">Cargando fecha...</p>
+                <p id="date">Cargando...</p>
             </div>
         </div>
 
-        <div class="window glass-window" id="notes-widget">
+        <div class="window glass-window draggable" id="notes-widget" style="top: 50px; left: 400px;">
             <div class="window-header">
-                <span class="dot red"></span>
+                <span class="dot red" onclick="closeWindow(this)"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
                 <span class="title">Bloc de Notas</span>
             </div>
             <div class="window-content">
-                <textarea id="note-input" placeholder="Escribe algo para guardar en la base de datos..."></textarea>
+                <textarea id="note-input" placeholder="Tus datos se guardan solos..."></textarea>
                 <button class="btn-aqua" onclick="saveNote()">Guardar en DB</button>
-                <p id="db-status">Estado: Esperando...</p>
             </div>
         </div>
 
-        <div id="taskbar" class="glass-taskbar">
-            <div class="start-btn"></div>
-            <div class="taskbar-icons">
-                <div class="icon-aqua">📁</div>
-                <div class="icon-aqua">🌐</div>
-                <div class="icon-aqua">⚙️</div>
+        <div class="window glass-window draggable" id="music-widget" style="top: 300px; left: 100px;">
+            <div class="window-header">
+                <span class="dot red" onclick="closeWindow(this)"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title">Aqua Media Player</span>
+            </div>
+            <div class="window-content">
+                <div class="vinyl-container">
+                    <div class="vinyl" id="vinyl"></div>
+                </div>
+                <div class="visualizer">
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                </div>
+                <button class="btn-aqua" onclick="toggleMusic()">PLAY / PAUSE</button>
+            </div>
+        </div>
+
+        <div class="window glass-window draggable" id="resource-widget" style="top: 300px; left: 450px;">
+            <div class="window-header"><span class="title">Sistema</span></div>
+            <div class="window-content">
+                <div class="gauge-container">
+                    <div class="gauge-bar" id="cpu-bar"></div>
+                </div>
+                <p>Uso de Energía Aqua</p>
             </div>
         </div>
     </div>
+
+    <div id="taskbar" class="glass-taskbar">
+        <div class="start-btn" onclick="playSound()"></div>
+        <div class="taskbar-icons">
+            <div class="icon-aqua">📁</div>
+            <div class="icon-aqua">🌐</div>
+            <div class="icon-aqua">⚙️</div>
+        </div>
+    </div>
+
+    <audio id="pop-sound" src="https://www.soundjay.com/buttons/sounds/button-20.mp3"></audio>
 
     <script src="script.js"></script>
 </body>
