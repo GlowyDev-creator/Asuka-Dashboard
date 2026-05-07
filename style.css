@@ -1,0 +1,123 @@
+:root {
+    --aqua-blue: rgba(0, 210, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --gloss-gradient: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 50%);
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #89f7fe 0%, #66a6ff 100%);
+}
+
+/* Efecto de Fondo Aero */
+.bubbles-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#desktop {
+    padding: 40px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Ventanas de Cristal (Aero Glass) */
+.window {
+    width: 300px;
+    background: var(--aqua-blue);
+    backdrop-filter: blur(15px) saturate(150%);
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 0 15px rgba(255,255,255,0.3);
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Brillo superior en la ventana */
+.window::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 50%;
+    background: var(--gloss-gradient);
+    pointer-events: none;
+}
+
+.window-header {
+    padding: 10px;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+.title { color: white; font-size: 12px; margin-left: 10px; font-weight: bold; text-shadow: 0 1px 2px black; }
+
+.window-content { padding: 20px; color: white; text-align: center; }
+
+/* Reloj */
+#time { font-size: 3rem; margin: 0; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+/* Inputs y Botones Aqua */
+textarea {
+    width: 100%;
+    height: 100px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid white;
+    border-radius: 8px;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+.btn-aqua {
+    background: linear-gradient(180deg, #5de0ff, #0080ff);
+    border: 1px solid #005bb7;
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.btn-aqua:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+/* Taskbar Estilo Aero */
+.glass-taskbar {
+    position: fixed;
+    bottom: 0; width: 100%;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+}
+
+.start-btn {
+    width: 40px; height: 40px;
+    background: radial-gradient(circle, #5de0ff, #004e92);
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 10px #5de0ff;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
