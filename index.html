@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroOS - Dashboard Aqua</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="bubbles-container" id="bubbles"></div>
+
+    <div id="desktop">
+        <div class="window glass-window" id="clock-widget">
+            <div class="window-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title">Tiempo</span>
+            </div>
+            <div class="window-content">
+                <h1 id="time">00:00:00</h1>
+                <p id="date">Cargando fecha...</p>
+            </div>
+        </div>
+
+        <div class="window glass-window" id="notes-widget">
+            <div class="window-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="title">Bloc de Notas</span>
+            </div>
+            <div class="window-content">
+                <textarea id="note-input" placeholder="Escribe algo para guardar en la base de datos..."></textarea>
+                <button class="btn-aqua" onclick="saveNote()">Guardar en DB</button>
+                <p id="db-status">Estado: Esperando...</p>
+            </div>
+        </div>
+
+        <div id="taskbar" class="glass-taskbar">
+            <div class="start-btn"></div>
+            <div class="taskbar-icons">
+                <div class="icon-aqua">📁</div>
+                <div class="icon-aqua">🌐</div>
+                <div class="icon-aqua">⚙️</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
